@@ -64,3 +64,11 @@ matrizAuxSE2 = -np.dot(Z.T,matrizAuxSE2Suma)
 xzSol = np.linalg.solve(matrizAuxSE1, matrizAuxSE2)
 
 ```
+
+```{python}
+matrizAestrella
+```
+
+```{python}
+xzSol
+```
