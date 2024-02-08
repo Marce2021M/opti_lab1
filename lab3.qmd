@@ -22,9 +22,45 @@ n = 9
 
 A = np.random.rand(m,n)
 r = np.linalg.matrix_rank(A)
+Q = np.random.rand(n,n)
+b = np.random.rand(m)
 
-print(A)
+c = np.ones(n)
 
-(U,S,Vh) = np.linalg.svd(A, full_matrices=True)
+# Descomposición en valores singulares
+
+U,S,Vh = np.linalg.svd(A, full_matrices=True)
+
+V = Vh.T
+
+# Hacemos la matriz Z que da la base del espacio nulo de A
+Z = V[:,m:n]
+
+# Comprobamos vector de zeros
+
+matriz_ceros = np.dot(A,Z) # Debe ser una matriz de zeros
+
+matrizSinv = np.diag(1/S)
+matrizSinv = np.concatenate((matrizSinv,np.zeros((n-m,m))))
+matrizAux1 = np.dot(matrizSinv,U.T)
+matrizAestrella = np.dot(V,matrizAux1)
+
+# Obtenemos la sol particular
+
+
+
+xParticular = np.dot(U.T,b)
+xParticular = np.dot(matrizSinv,xParticular)
+xParticular = np.dot(V,xParticular)
+
+w = np.dot(A,xParticular)
+error = w-b
+
+matrizAuxSE1 = np.dot(Z.T,np.dot(Q,Z))
+
+matrizAuxSE2Suma = np.dot(Q,xParticular)+ c
+matrizAuxSE2 = -np.dot(Z.T,matrizAuxSE2Suma)
+
+xzSol = np.linalg.solve(matrizAuxSE1, matrizAuxSE2)
 
 ```
